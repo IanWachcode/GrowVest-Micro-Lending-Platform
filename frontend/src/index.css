@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    background-color: #ffffff;
+    background-color: #4082da;
     color: #111827;
   }
 }
@@ -57,7 +57,7 @@
   }
 
   .card {
-    background-color: #ffffff;
+    background-color: #19479c;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border-radius: 0.25rem;
     padding: 1rem;

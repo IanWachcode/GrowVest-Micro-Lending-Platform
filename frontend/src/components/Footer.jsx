@@ -35,14 +35,14 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Contact</h4>
             <p className="text-gray-300">
               Email: support@growvest.com<br />
-              Phone: +1 (555) 123-4567
+              Phone: +254 724450377
             </p>
           </div>
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-300">
-            &copy; 2024 GrowVest. All rights reserved.
+            &copy; 2025 GrowVest. All rights reserved.
           </p>
         </div>
       </div>
