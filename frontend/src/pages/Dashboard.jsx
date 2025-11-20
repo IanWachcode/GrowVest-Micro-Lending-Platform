@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
  
 import { motion } from 'framer-motion';
 import { AuthContext } from '../context/AuthContext.jsx';
+
 import api from '../utils/api';
 import { FiDollarSign, FiPieChart, FiTrendingUp, FiClock, FiCheckCircle, FiArrowRight } from 'react-icons/fi';
 import { AnimatedCard, StatCard, StatusBadge, Skeleton } from '../components/ModernComponents';
 import toast from 'react-hot-toast';
+
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);

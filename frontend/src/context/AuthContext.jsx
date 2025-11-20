@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { AuthContext } from './AuthContext';
+import { AuthContext } from "./AuthContext.js";
+
+export { AuthContext };
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load user from localStorage on refresh
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
@@ -18,7 +19,6 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // LOGIN FUNCTION
   const login = async ({ email, password }) => {
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
@@ -29,22 +29,45 @@ export const AuthProvider = ({ children }) => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        return { success: false, message: data.message };
-      }
+      if (!res.ok) return { success: false, message: data.message };
 
-      // Save token + user
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       setUser(data.user);
 
       return { success: true };
-    } catch {
+    } catch (error) {
+      console.error("Login error:", error);
       return { success: false, message: "Login failed" };
     }
   };
-  // LOGOUT FUNCTION
+
+  const register = async (userData) => {
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) return { success: false, message: data.message };
+
+      // After successful registration, log the user in
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      setUser(data.user);
+
+      return { success: true };
+    } catch (error) {
+      console.error("Registration error:", error);
+      return { success: false, message: "Registration failed" };
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -52,7 +75,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );
