@@ -1,86 +1,48 @@
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { AuthContext } from "./AuthContext.js";
+// context/AuthContext.jsx
+import { createContext, useState, useEffect } from "react";
+import api from "../utils/api";
 
-export { AuthContext };
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch logged-in user on mount
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userData = localStorage.getItem("user");
-
-    if (token && userData) {
-      setUser(JSON.parse(userData));
-    }
-
-    setLoading(false);
+    const fetchUser = async () => {
+      try {
+        const res = await api.get("/auth/me");
+        setUser(res.data); // set user if logged in
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
   }, []);
 
+  // Login function
   const login = async ({ email, password }) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) return { success: false, message: data.message };
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      setUser(data.user);
-
+      const res = await api.post("/auth/login", { email, password });
+      setUser(res.data.user); // update user in context
+      // optionally save token: localStorage.setItem("token", res.data.token);
       return { success: true };
-    } catch (error) {
-      console.error("Login error:", error);
-      return { success: false, message: "Login failed" };
-    }
-  };
-
-  const register = async (userData) => {
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) return { success: false, message: data.message };
-
-      // After successful registration, log the user in
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      setUser(data.user);
-
-      return { success: true };
-    } catch (error) {
-      console.error("Registration error:", error);
-      return { success: false, message: "Registration failed" };
+    } catch (err) {
+      return { success: false, message: err.response?.data?.message || err.message };
     }
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setUser(null);
+    localStorage.removeItem("token"); // if using token
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
 };

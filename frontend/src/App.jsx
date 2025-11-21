@@ -15,7 +15,6 @@ import Dashboard from './pages/Dashboard';
 import ApplyLoan from './pages/ApplyLoan';
 import Savings from './pages/Savings';
 
-// PROTECTED ROUTE
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
 
@@ -30,8 +29,8 @@ ProtectedRoute.propTypes = {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <ToastProvider />
         <Navbar />
 
@@ -66,11 +65,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} 
+          />
         </Routes>
 
         <Footer />
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

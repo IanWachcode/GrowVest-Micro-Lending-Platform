@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { AuthContext } from '../context/AuthContext.js';
+import { AuthContext } from '../context/AuthContext';
 import { FiMenu, FiX, FiHome, FiDollarSign, FiPieChart, FiGrid, FiLogOut } from 'react-icons/fi';
 
 const Navbar = () => {
