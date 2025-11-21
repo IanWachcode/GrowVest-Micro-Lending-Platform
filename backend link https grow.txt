@@ -1,2 +1,0 @@
-backend link
-https://grow-vest-micro-lending-platform.vercel.app/
