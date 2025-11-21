@@ -27,8 +27,9 @@ export const AuthProvider = ({ children }) => {
   const login = async ({ email, password }) => {
     try {
       const res = await api.post("/auth/login", { email, password });
-      setUser(res.data.user); // update user in context
-      // optionally save token: localStorage.setItem("token", res.data.token);
+      const { token, ...userData } = res.data;
+      setUser(userData); // update user in context
+      localStorage.setItem("token", token); // save token
       return { success: true };
     } catch (err) {
       return { success: false, message: err.response?.data?.message || err.message };

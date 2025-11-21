@@ -1,6 +1,12 @@
 # GrowVest - Micro-Lending Platform
 
-A full-stack MERN application for micro-lending and savings management for small businesses.
+## Link to my pitch
+
+<https://gamma.app/docs/fvhyg3zdu37i4wh>
+
+## Project Outline
+
+GrowVest Micro Lending Platform a full-stack MERN application for micro-lending and savings management for small businesses.
 
 ## Features
 
@@ -37,104 +43,6 @@ Before you begin, ensure you have installed:
 - [MongoDB](https://www.mongodb.com/try/download/community) (Local installation or MongoDB Atlas account)
 - [Git](https://git-scm.com/)
 
-## Installation & Setup
-
-### 1. Clone or Download the Project
-
-```bash
-# Create the project directory
-mkdir growvest-micro-lending
-cd growvest-micro-lending
-```
-
-### 2. Backend Setup
-
-```bash
-# Create and navigate to backend folder
-mkdir backend
-cd backend
-
-# Initialize npm
-npm init -y
-
-# Install dependencies
-npm install express mongoose dotenv bcryptjs jsonwebtoken cors
-
-# Install dev dependencies
-npm install --save-dev nodemon
-```
-
-Create the following files in the backend folder:
-
-- Copy all backend files from the artifacts above
-
-**Update `backend/package.json` scripts:**
-
-```json
-"scripts": {
-  "start": "node server.js",
-  "dev": "nodemon server.js"
-}
-```
-
-**Configure `.env` file:**
-
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/growvest
-JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
-```
-
-### 3. Frontend Setup
-
-```bash
-# Navigate back to root
-cd ..
-
-# Create frontend with Vite
-npm create vite@latest frontend -- --template react
-cd frontend
-
-# Install dependencies
-npm install
-
-# Install additional packages
-npm install react-router-dom axios
-
-# Install Tailwind CSS
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-```
-
-Create all frontend files from the artifacts above.
-
-**Update `tailwind.config.js`:**
-
-```javascript
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        primary: '#10B981',
-        secondary: '#059669',
-      },
-    },
-  },
-  plugins: [],
-}
-```
-
-**Create `.env` file in frontend:**
-
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
 ## Running the Application
 
 ### Option 1: Run Backend and Frontend Separately
@@ -156,32 +64,6 @@ npm run dev
 ```
 
 The frontend will run on `http://localhost:5173`
-
-### Option 2: Using Concurrent Commands (Optional)
-
-Install `concurrently` in the root directory:
-
-```bash
-npm install concurrently
-```
-
-Add to root `package.json`:
-
-```json
-{
-  "scripts": {
-    "server": "cd backend && npm run dev",
-    "client": "cd frontend && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
-  }
-}
-```
-
-Then run:
-
-```bash
-npm run dev
-```
 
 ## Project Structure in VS Code
 
