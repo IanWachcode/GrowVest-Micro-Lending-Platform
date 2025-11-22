@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const express = require('express');
 
+const app = express();
 const protect = async (req, res, next) => {
   let token;
 
@@ -32,4 +34,5 @@ const protect = async (req, res, next) => {
   }
 };
 
+module.exports = app;
 module.exports = { protect };

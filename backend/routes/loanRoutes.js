@@ -17,4 +17,5 @@ router.put('/:id', protect, updateLoan);
 router.delete('/:id', protect, deleteLoan);
 
 module.exports = router;
+module.exports = app;
 
