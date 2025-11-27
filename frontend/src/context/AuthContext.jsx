@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         const res = await api.get("/auth/me");
-        setUser(res.data); // set user if logged in
+        setUser(res.data);
       } catch {
         setUser(null);
       } finally {
@@ -28,21 +28,53 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.post("/auth/login", { email, password });
       const { token, ...userData } = res.data;
-      setUser(userData); // update user in context
-      localStorage.setItem("token", token); // save token
+
+      setUser(userData);
+      localStorage.setItem("token", token);
+
       return { success: true };
     } catch (err) {
-      return { success: false, message: err.response?.data?.message || err.message };
+      return {
+        success: false,
+        message: err.response?.data?.message || err.message,
+      };
+    }
+  };
+
+  // ⭐ ADD THIS (REGISTER FUNCTION)
+  const register = async (formData) => {
+    try {
+      const res = await api.post("/auth/register", formData);
+
+      const { token, ...userData } = res.data;
+
+      setUser(userData);
+      localStorage.setItem("token", token);
+
+      return { success: true };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.response?.data?.message || err.message,
+      };
     }
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("token"); // if using token
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        register,   // ⭐ MAKE SURE THIS IS INCLUDED
+        logout,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
